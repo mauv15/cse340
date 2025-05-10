@@ -30,6 +30,13 @@ header a {
   text-decoration: none;
 }
 
+.siteName a {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000;
+  text-decoration: none;
+}
+
 .account {
   font-size: 0.9rem;
   text-decoration: none;
@@ -93,6 +100,10 @@ main h2 {
 .grid, .reviews ul {
   list-style: none;
   padding: 0;
+}
+
+.reviews ul li {
+  margin-bottom: 0.75rem;
 }
 
 .grid {
