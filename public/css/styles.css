@@ -1,6 +1,160 @@
-/******* Change Box Model ***************/
-*,
+/* ****** Change Box Model ************** */
+/* *,
 *:before,
 *:after {
   box-sizing: border-box;
+} */
+
+body {
+  font-family: Arial, sans-serif;
+  background: #fff url('/images/site/checkerboard.jpg');
+  margin: 0;
 }
+
+#wrapper {
+  background-color: white;
+  max-width: 960px;
+  margin: 0 auto;
+  border: 2px solid #00c0ff;
+  padding: 1rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header a {
+  color: #000;
+  text-decoration: none;
+}
+
+.account {
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #333;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  padding: 10px;
+  background-color: #111;
+  margin: 1rem 0;
+}
+
+nav li {
+  flex: 1;
+  text-align: center;
+  color: white;
+}
+
+main h2 {
+  margin-top: 0;
+}
+
+.promo {
+  display: flex;
+  align-items: center;
+}
+
+.promo-text {
+  max-width: 200px;
+  position: absolute;
+  margin-left: 7%;
+  background-color: rgb(255, 255, 255, 0.7);
+}
+
+.blue-text {
+  color: #00c0ff;
+}
+
+#own_btn{
+  width: 50%;
+}
+
+.car-img {
+  /* width: 300px; */
+  max-width: 100%;
+  margin: 0 20%;
+  }
+
+.info-sections {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.upgrades, .reviews {
+  width: 48%;
+}
+
+.grid, .reviews ul {
+  list-style: none;
+  padding: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(80px, auto);
+  grid-gap: 15px; 
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem;
+  border: 1px solid black;
+  background-color: #f9f9f9;
+}
+
+
+.upgrades img {
+  width: 50px;
+  margin-right: 10px;
+  padding: 5px 40px;
+  background-color: #00c0ff;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .car-img {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .info-sections {
+    flex-direction: column-reverse;
+  }
+
+  .upgrades,
+  .reviews {
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .grid-item {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .upgrades img {
+    margin: 0 auto;
+    padding: 10px;
+  }
+}
+
