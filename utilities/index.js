@@ -48,6 +48,7 @@ Util.buildClassificationGrid = async function(data){
       grid += '<span>$' 
       + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
       grid += '</div>'
+      grid += '</a>'
       grid += '</li>'
     })
     grid += '</ul>'
@@ -55,6 +56,28 @@ Util.buildClassificationGrid = async function(data){
     grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
   return grid
+}
+
+Util.buildInventoryDetail = async function(data){
+  let detail = ''
+  if(data.length > 0){
+    const vehicle = data[0]
+    detail += '<div class="detail-container">'
+    detail += '<img src="' + vehicle.inv_image + '" alt="Image of ' 
+    + vehicle.inv_make + ' ' + vehicle.inv_model + ' on CSE Motors" />'
+    detail += '<div class="detail-info">'
+    detail += '<h2>' + vehicle.inv_make + ' ' + vehicle.inv_model + ' ' + vehicle.inv_year + '</h2>'
+    detail += '<p class="price">$' 
+    + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</p>'
+    detail += '<p class="description">' + vehicle.inv_description + '</p>'
+    detail += '<p class="mileage">Mileage: '
+    + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + ' miles</p>'
+    detail += '</div>'
+    detail += '</div>'
+  } else {
+    detail += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+  }
+  return detail
 }
 
 module.exports = Util
