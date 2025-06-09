@@ -1,0 +1,26 @@
+<h1><%= title %></h1>
+
+<!-- Flash messages -->
+<% if (messages().error) { %>
+  <div class="flash error"><%= messages().error %></div>
+<% } %>
+<% if (messages().success) { %>
+  <div class="flash success"><%= messages().success %></div>
+<% } %>
+
+<form action="/account/register" method="post">
+  <label for="first_name">First Name</label>
+  <input type="text" name="first_name" id="first_name" required value="<%= first_name || '' %>">
+
+  <label for="last_name">Last Name</label>
+  <input type="text" name="last_name" id="last_name" required value="<%= last_name || '' %>">
+
+  <label for="email">Email</label>
+  <input type="email" name="email" id="email" required value="<%= email || '' %>">
+
+  <label for="password">Password</label>
+  <input type="password" name="password" id="password" required pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{12,}">
+  <small>Password must be at least 12 characters long, include a capital letter, a number, and a special character.</small>
+
+  <button type="submit">Register</button>
+</form>
