@@ -1,0 +1,27 @@
+<main>
+  <h1><%= title %></h1>
+  <p>Please enter a classification name. No spaces or special characters are allowed.</p>
+
+  <% if (errors && errors.length > 0) { %>
+    <div class="form-errors">
+      <ul>
+        <% errors.forEach(function(error) { %>
+          <li><%= error.msg %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+
+  <% if (locals.message) { %>
+    <div class="flash-message">
+      <p><%= message %></p>
+    </div>
+  <% } %>
+
+  <form id="classificationForm" action="/inv/add-class" method="post">
+    <label for="classification_name">Classification Name</label>
+    <input type="text" id="classification_name" name="classification_name" pattern="^[A-Za-z0-9]+$" required title="Only letters and numbers, no spaces or special characters">
+
+    <button type="submit">Add Classification</button>
+  </form>
+</main>

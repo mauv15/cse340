@@ -1,6 +1,7 @@
 const utilities = require('../utilities/index')
 const accountModel = require('../models/account-model')
 
+
 /* ****************************************
 *  Deliver login view
 * *************************************** */
@@ -16,14 +17,18 @@ async function buildLogin(req, res, next) {
 /* ****************************************
 *  Deliver registration view
 * *************************************** */
+/* ****************************************
+*  Deliver registration view
+* *************************************** */
 async function buildRegister(req, res, next) {
   let nav = await utilities.getNav()
   res.render("account/register", {
     title: "Register",
     nav,
-    first_name: req.body?.first_name || '',
-    last_name: req.body?.last_name || '',
-    email: req.body?.email || ''
+    account_firstname: req.body?.account_firstname || '',
+    account_lastname: req.body?.account_lastname || '',
+    account_email: req.body?.account_email || '',
+    errors: null,
   })
 }
 
@@ -32,12 +37,6 @@ async function buildRegister(req, res, next) {
 * *************************************** */
 async function registerAccount(req, res) {
   let nav = await utilities.getNav()
-  // Make sure these match your form field names
-  const account_firstname = req.body.first_name
-  const account_lastname = req.body.last_name
-  const account_email = req.body.email
-  const account_password = req.body.password
-
   try {
     const regResult = await accountModel.registerAccount(
       account_firstname,

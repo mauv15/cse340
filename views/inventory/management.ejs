@@ -1,0 +1,17 @@
+<main>
+  <h1><%= title %></h1>
+  <p>Welcome to the inventory management system. Use the links below to manage inventory data.</p>
+
+  <!-- Flash message section -->
+  <% if (locals.message) { %>
+    <div class="flash-message">
+      <p><%= message %></p>
+    </div>
+  <% } %>
+
+  <!-- Management links -->
+  <ul>
+    <li><a href="/inv/add-class">Add New Classification</a></li>
+    <li><a href="/inv/add-inv">Add New Inventory</a></li>
+  </ul>
+</main>
