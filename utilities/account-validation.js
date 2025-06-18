@@ -6,7 +6,7 @@ const validate = {}
 /*  **********************************
   *  Registration Data Validation Rules
   * ********************************* */
-  validate.registationRules = () => {
+  validate.registrationRules = () => {
     return [
       // firstname is required and must be string
       body("account_firstname")
@@ -26,12 +26,12 @@ const validate = {}
   
       // valid email is required and cannot already exist in the DB
       body("account_email")
-      .trim()
-      .escape()
-      .notEmpty()
-      .isEmail()
-      .normalizeEmail() // refer to validator.js docs
-      .withMessage("A valid email is required."),
+        .trim()
+        .escape()
+        .notEmpty()
+        .isEmail()
+        .normalizeEmail() // refer to validator.js docs
+        .withMessage("A valid email is required."),
   
       // password is required and must be strong password
       body("account_password")
@@ -67,6 +67,37 @@ validate.checkRegData = async (req, res, next) => {
       account_email,
     })
     return
+  }
+  next()
+}
+
+validate.loginRules = () => {
+  return [
+    // Email is required and must be valid
+    body("account_email")
+      .trim()
+      .isEmail()
+      .normalizeEmail()
+      .withMessage("A valid email is required."),
+
+    // Password is required (we don't check strength on login)
+    body("account_password")
+      .trim()
+      .notEmpty()
+      .withMessage("Password is required.")
+  ]
+}
+
+validate.checkLoginData = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const nav = await require("../utilities/").getNav()
+    return res.render("account/login", {
+      title: "Login",
+      nav,
+      errors: errors.array(),
+      account_email: req.body.account_email
+    })
   }
   next()
 }

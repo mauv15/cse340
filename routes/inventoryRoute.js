@@ -37,4 +37,11 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 //route to build inventory detail view
 router.get("/detail/:invId", utilities.handleErrors(invController.buildByInvId));
 
+router.get(
+  "/getInventory/:classification_id",
+  utilities.handleErrors(invController.getInventoryJSON)
+)
+
+router.get("/edit/:invId", utilities.handleErrors(invController.editInventoryView))
+
 module.exports = router;

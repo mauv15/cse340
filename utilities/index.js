@@ -1,5 +1,7 @@
 const invModel = require("../models/inventory-model")
 const Util = {}
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 
 /* ************************
@@ -86,8 +88,24 @@ Util.buildInventoryDetail = async function(data){
  * Wrap other function in this for 
  * General Error Handling
  **************************************** */
-Util.handleErrors = (fn) => (req, res, next) => 
-  Promise.resolve(fn(req, res, next)).catch(next)
+Util.handleErrors = (fn) => async (req, res, next) => {
+  try {
+    await fn(req, res, next)
+  } catch (err) {
+    console.error("💥 Error caught by handleErrors:", err.message)
+
+    // Fallback to login page with a flash message
+    req.flash("message", "Something went wrong.")
+    let nav = await Util.getNav()
+    res.status(500).render("account/login", {
+      title: "Login",
+      nav,
+      message: "Something went wrong.",
+    })
+  }
+}
+// Util.handleErrors = (fn) => (req, res, next) => 
+//   Promise.resolve(fn(req, res, next)).catch(next)
 
 /**
  * Builds the select list of classifications for forms
@@ -112,5 +130,38 @@ Util.buildClassificationList = async function (classification_id = null) {
   classificationList += "</select>"
   return classificationList
 }
+
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
+Util.checkJWTToken = (req, res, next) => {
+  const token = req.cookies.jwt
+  if (!token) {
+    res.locals.loggedin = false
+    return next()
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+    res.locals.loggedin = true
+    res.locals.accountData = decoded
+    next()
+  } catch (err) {
+    res.locals.loggedin = false
+    return next()
+  }
+}
+
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+ Util.checkLogin = (req, res, next) => {
+  if (res.locals.loggedin) {
+    next()
+  } else {
+    req.flash("notice", "Please log in.")
+    return res.redirect("/account/login")
+  }
+ }
 
 module.exports = Util
