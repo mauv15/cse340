@@ -143,8 +143,8 @@ Util.checkJWTToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-    res.locals.loggedin = true
     res.locals.accountData = decoded
+    res.locals.loggedin = true
     next()
   } catch (err) {
     res.locals.loggedin = false
