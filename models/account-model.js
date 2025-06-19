@@ -41,7 +41,7 @@ async function getAccountById(account_id) {
 /* *****************************
 * Update account name and email
 * ***************************** */
-async function updateAccount(account_id, account_firstname, account_lastname, account_email) {
+async function updateAccount(account_firstname, account_lastname, account_email, account_id) {
   try {
     const sql = `
       UPDATE account
@@ -61,7 +61,7 @@ async function updateAccount(account_id, account_firstname, account_lastname, ac
 /* *****************************
 * Update account password
 * ***************************** */
-async function updatePassword(account_id, hashedPassword) {
+async function updatePassword(hashedPassword, account_id) {
   const sql = `
     UPDATE account
     SET account_password = $1

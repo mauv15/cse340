@@ -207,6 +207,13 @@ async function changePassword(req, res) {
   })
 }
 
+/* ****************************************
+ *  Process Logout
+ * *************************************** */
+async function logout(req, res) {
+  res.clearCookie("jwt") // Clear the JWT cookie
+  res.redirect("/") // Redirect to home page
+}
 
 
 
@@ -217,5 +224,6 @@ module.exports = { buildLogin,
   buildAccountManagement,
   buildUpdateAccountView,
   updateAccount,
-  changePassword
+  changePassword,
+  logout
 }
