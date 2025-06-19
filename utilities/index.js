@@ -164,4 +164,18 @@ Util.checkJWTToken = (req, res, next) => {
   }
  }
 
+ // Restrict access to Employees and Admins only
+Util.checkAccountType = (req, res, next) => {
+  const account = res.locals.accountData
+
+  if (account && (account.account_type === "Employee" || account.account_type === "Admin")) {
+    return next()
+  }
+
+  // Not authorized
+  req.flash("message", "You must be logged in with proper credentials to access that page.")
+  return res.redirect("/account/login")
+}
+
+
 module.exports = Util

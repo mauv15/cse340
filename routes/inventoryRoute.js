@@ -7,27 +7,35 @@ const utilities = require("../utilities")
 const invValidate = require("../utilities/inventory-validation")
 
 // Route to build inventory management view
-router.get("/", utilities.handleErrors(invController.buildManagement))
+router.get("/",
+  utilities.checkAccountType,
+  utilities.handleErrors(invController.buildManagement))
 
 //Route to build add classification
-router.get("/add-class", utilities.handleErrors(invController.buildAddClassification))
+router.get("/add-class",
+  utilities.checkAccountType,
+  utilities.handleErrors(invController.buildAddClassification))
 
 // Route to handle classification submission
 router.post(
   "/add-class",
   invValidate.classificationRules(),
   invValidate.checkClassificationData,
+  utilities.checkAccountType,
   utilities.handleErrors(invController.addClassification)
 )
 
 // Display the Add Inventory form
-router.get("/add-inv", invController.buildAddInventory)
+router.get("/add-inv",
+utilities.checkAccountType,
+invController.buildAddInventory)
 
 // Process Add Inventory form
 router.post(
   "/add-inv",
   invValidate.inventoryRules(),
   invValidate.checkInventoryData,
+  utilities.checkAccountType,
   utilities.handleErrors(invController.addInventory)
 )
 
@@ -43,12 +51,15 @@ router.get(
 )
 
 router.get(
-  "/edit/:invId",utilities.handleErrors(invController.editInventoryView))
+  "/edit/:invId",
+  utilities.checkAccountType,
+  utilities.handleErrors(invController.editInventoryView))
 
 router.post(
   "/update/",
   invValidate.inventoryRules(),
   invValidate.checkUpdateData,
+  utilities.checkAccountType,
   utilities.handleErrors(invController.updateInventory)
 )
 

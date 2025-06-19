@@ -102,4 +102,67 @@ validate.checkLoginData = async (req, res, next) => {
   next()
 }
 
+validate.updateRules = () => {
+  return [
+    body("account_firstname").trim().notEmpty().withMessage("First name is required."),
+    body("account_lastname").trim().notEmpty().withMessage("Last name is required."),
+    body("account_email")
+      .trim()
+      .isEmail().withMessage("A valid email is required.")
+      .normalizeEmail()
+      .custom(async (email, { req }) => {
+        const account = await accountModel.getAccountByEmail(email)
+        if (account && account.account_id != req.body.account_id) {
+          throw new Error("Email already exists.")
+        }
+        return true
+      })
+  ]
+}
+
+validate.checkUpdateData = async (req, res, next) => {
+  const errors = validationResult(req)
+  const { account_firstname, account_lastname, account_email, account_id } = req.body
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav()
+    return res.render("./account/update-account", {
+      title: "Update Account",
+      nav,
+      errors: errors.array(),
+      accountData: { account_id, account_firstname, account_lastname, account_email }
+    })
+  }
+  next()
+}
+
+validate.passwordRules = () => {
+  return [
+    body("account_password")
+      .trim()
+      .isLength({ min: 12 })
+      .withMessage("Password must be at least 12 characters long.")
+      .matches(/[A-Z]/).withMessage("Password must contain an uppercase letter.")
+      .matches(/[a-z]/).withMessage("Password must contain a lowercase letter.")
+      .matches(/[0-9]/).withMessage("Password must contain a number.")
+      .matches(/[!@#$%^&*]/).withMessage("Password must contain a special character.")
+  ]
+}
+
+validate.checkPasswordData = async (req, res, next) => {
+  const errors = validationResult(req)
+  const { account_id, account_password } = req.body
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav()
+    const account = await accountModel.getAccountById(account_id)
+    return res.render("./account/update-account", {
+      title: "Update Account",
+      nav,
+      errors: errors.array(),
+      accountData: account
+    })
+  }
+  next()
+}
+
+
 module.exports = validate

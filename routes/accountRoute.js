@@ -28,6 +28,29 @@ router.post(
 
 router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
 
+// Route to build account update view
+router.get(
+  "/update/:accountId",
+  utilities.checkJWTToken, // secure route
+  utilities.handleErrors(accountController.buildUpdateAccountView)
+)
+
+// POST route for updating account info
+router.post(
+  "/update",
+  regValidate.updateRules(),
+  regValidate.checkUpdateData,
+  utilities.handleErrors(accountController.updateAccount)
+)
+
+// POST route for changing password
+router.post(
+  "/change-password",
+  regValidate.passwordRules(),
+  regValidate.checkPasswordData,
+  utilities.handleErrors(accountController.changePassword)
+)
+
 
 module.exports = router
 
