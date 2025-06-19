@@ -84,11 +84,11 @@ validate.checkInventoryData = async (req, res, next) => {
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
 
-    // ✅ Get vehicles by classification ID from model
+    // Get vehicles by classification ID from model
     const invModel = require("../models/inventory-model")
     const data = await invModel.getInventoryByClassificationId(classification_id)
 
-    // ✅ Now build the classification list with actual vehicle data
+    // build the classification list with actual vehicle data
     let classificationList = await utilities.buildClassificationGrid(data.rows)
 
     res.render("./inventory/add-inventory", {
@@ -105,5 +105,31 @@ validate.checkInventoryData = async (req, res, next) => {
   next()
 }
 
+//errors will be directed back to the edit view.
+validate.checkUpdateData = async (req, res, next) => {
+  const errors = validationResult(req)
+  const { classification_id, inv_id } = req.body
+
+
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+
+    const invModel = require("../models/inventory-model")
+    const data = await invModel.getInventoryByClassificationId(classification_id)
+
+    let classificationList = await utilities.buildClassificationGrid(data.rows)
+    res.render("./inventory/add-inventory", {
+      title: "Edit " + itemName,
+      nav,
+      classificationList,
+      message: null,
+      errors: errors.array(),
+      inv_id,
+      ...req.body,
+    })
+    return
+  }
+  next()
+}
 
 module.exports = validate
