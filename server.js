@@ -16,6 +16,7 @@ const inventoryRoute = require("./routes/inventoryRoute")
 const session = require("express-session")
 const pool = require('./database/')
 const accountRoute = require('./routes/accountRoute')
+const whishlistRoute = require('./routes/wishlistRoute')
 const utilities = require('./utilities/')
 const cookieParser = require("cookie-parser")
 // const bodyParser = require("body-parser")
@@ -77,6 +78,8 @@ app.use("/inv", inventoryRoute)
 // Account routes
 app.use("/account", accountRoute)
 // File Not Found Route - must be last route in list
+app.use("/wishlist", whishlistRoute)
+
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 })

@@ -33,6 +33,8 @@ invCont.buildByInvId = async function (req, res, next) {
       nav,
       detail,
       vehicle: data[0],
+      errors: null,
+      message: null
     })
   } else {
     res.status(404).render("404", { title: "Vehicle Not Found", nav })
